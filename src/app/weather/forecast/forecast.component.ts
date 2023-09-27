@@ -1,10 +1,7 @@
 import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
 import { ForecastService } from '../forecast.service';
 
-interface ForecastData {
-  dateString: string;
-  temp: number;
-}
 
 @Component({
   selector: 'app-forecast',
@@ -12,10 +9,8 @@ interface ForecastData {
   styleUrls: ['./forecast.component.css'],
 })
 export class ForecastComponent {
-  forecastData: ForecastData[] = [];
+  forecast$: Observable<{dateString: string; temp: number; }[]>;
   constructor(forecastService: ForecastService) {
-    forecastService.getForecast().subscribe((forecastData) => {
-      this.forecastData = forecastData;
-    });
+    this.forecast$ = forecastService.getForecast();
   }
 }
