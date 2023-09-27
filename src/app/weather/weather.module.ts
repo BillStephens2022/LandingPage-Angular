@@ -10,6 +10,9 @@ import { ForecastComponent } from './forecast/forecast.component';
   ],
   imports: [
     CommonModule
+  ],
+  exports: [
+    ForecastComponent
   ]
 })
 export class WeatherModule { }
