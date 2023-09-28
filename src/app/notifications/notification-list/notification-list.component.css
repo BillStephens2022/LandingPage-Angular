@@ -1,0 +1,13 @@
+:host {
+  display: block;
+  position: fixed;
+  bottom: 0;
+  right: 10px;
+  min-width: 300px;
+  justify-content: space-between;
+}
+
+.btn {
+    position: fixed;
+    right: 20px;
+}
