@@ -17,7 +17,7 @@ interface OpenWeatherResponse {
 })
 export class ForecastService {
   private url = 'https://api.openweathermap.org/data/2.5/forecast'
-  private apiKey: string = environment.apiKey;
+  private apiKey: string = environment.openWeatherApiKey;
   constructor(private http: HttpClient) {}
   getForecast() {
     return this.getCurrentLocation()
