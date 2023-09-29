@@ -3,18 +3,21 @@ import { environment } from 'src/environments/environment';
 import { Subject, Observable, tap, map, switchMap, pipe, pluck } from 'rxjs';
 import { HttpParams, HttpClient } from '@angular/common/http';
 
+export interface Article {
+  title: string;
+  url: string;
+  source: {
+    name: string;
+  };
+}
+
 export interface NewsApiResponse {
   totalResults: number;
   articles: Article[];
 }
 
-export interface Article {
-  title: string;
-  url: string;
-}
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class NewsApiService {
   private url = 'https://newsapi.org/v2/top-headlines';
@@ -26,7 +29,7 @@ export class NewsApiService {
   pagesOutput: Observable<Article[]>;
   numberOfPages: Subject<number>;
 
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient) {
     this.numberOfPages = new Subject();
     this.pagesInput = new Subject();
     this.pagesOutput = this.pagesInput.pipe(
@@ -35,18 +38,17 @@ export class NewsApiService {
           .set('apiKey', this.apiKey)
           .set('country', this.country)
           .set('pageSize', String(this.pageSize))
-          .set('page', String(page))
+          .set('page', String(page));
       }),
       switchMap((params) => {
         return this.http.get<NewsApiResponse>(this.url, { params });
       }),
-      tap(response => {
+      tap((response) => {
         const totalPages = Math.ceil(response.totalResults / this.pageSize);
         this.numberOfPages.next(totalPages);
       }),
       pluck('articles')
-    )
-    
+    );
   }
 
   getPage(page: number) {

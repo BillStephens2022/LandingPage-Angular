@@ -6,7 +6,8 @@
           class="list-group-item list-group-item-action"
           [href]="article.url"
           target="_blank"
-        >{{ article.title }}</a>
+        >{{ article.title | trimOutletName: article.source.name }}</a>
     </div>
+    <app-paginator></app-paginator>
 
 

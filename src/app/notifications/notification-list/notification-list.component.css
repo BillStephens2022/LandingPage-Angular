@@ -5,9 +5,10 @@
   right: 10px;
   min-width: 300px;
   justify-content: space-between;
+  z-index: 20;
 }
 
 .btn {
-    position: fixed;
-    right: 20px;
+  position: fixed;
+  right: 20px;
 }
