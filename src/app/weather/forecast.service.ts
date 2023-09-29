@@ -11,6 +11,9 @@ import {
   filter,
   toArray,
   share,
+  throwError,
+  catchError,
+  retry
 } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { NotificationsService } from '../notifications/notifications.service';
@@ -62,6 +65,7 @@ export class ForecastService {
 
   getCurrentLocation() {
     return new Observable<GeolocationCoordinates>((observer) => {
+      console.log('trying to get location...');
       window.navigator.geolocation.getCurrentPosition(
         (position) => {
           observer.next(position.coords);
@@ -70,11 +74,21 @@ export class ForecastService {
         (err) => observer.error(err)
       );
     }).pipe(
+      retry(2),
       tap(() => {
         this.notificationsService.addSuccess('Got your location!');
-      }, () => {
-        this.notificationsService.addError('Failed to get your location!');
-      })
+      }, 
+        catchError((err) => {
+          // #1 handle the error
+          this.notificationsService.addError('Failed to get your location!');
+          // #2 return a new Observable
+          // alternative code is return throwError(err), however it is now deprecated.
+          return new Observable(observer => {
+            observer.error(err);
+          });
+        
+        })
+      )
     );
   }
 }

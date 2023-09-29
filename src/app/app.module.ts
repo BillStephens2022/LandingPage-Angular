@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { WeatherModule } from './weather/weather.module';
 import { StocksModule } from './stocks/stocks.module';
 import { NotificationsModule } from './notifications/notifications.module';
+import { NewsApiModule } from './news-api/news-api.module';
 import { AppComponent } from './app.component';
 
 @NgModule({
@@ -15,7 +16,8 @@ import { AppComponent } from './app.component';
     HttpClientModule,
     WeatherModule,
     StocksModule,
-    NotificationsModule
+    NotificationsModule,
+    NewsApiModule
   ],
   providers: [],
   bootstrap: [AppComponent]
